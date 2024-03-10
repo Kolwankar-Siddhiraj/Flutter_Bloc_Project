@@ -1,15 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:test_bloc/features/home/bloc/home_bloc.dart';
+import 'package:test_bloc/features/cart/bloc/cart_bloc.dart';
 import 'package:test_bloc/features/home/models/product_data_model.dart';
 
-class HomeProductCardWidget extends StatelessWidget {
-  const HomeProductCardWidget(
-      {super.key, required this.product, required this.homeBloc});
+class CartProductCardWidget extends StatelessWidget {
+  const CartProductCardWidget(
+      {super.key, required this.product, required this.cartBloc});
 
   final ProductDataModel product;
-  final HomeBloc homeBloc;
+  final CartBloc cartBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +48,13 @@ class HomeProductCardWidget extends StatelessWidget {
                 "\$${product.price!}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        homeBloc.add(HomeProductAddToWishlistButtonClickedEvent(
-                            clickedProduct: product));
-                      },
-                      icon: Icon(Icons.favorite_rounded,
-                          color: Colors.black, size: 30)),
-                  IconButton(
-                      onPressed: () {
-                        homeBloc.add(HomeProductAddToCartButtonClickedEvent(
-                            clickedProduct: product));
-                      },
-                      icon: Icon(Icons.shopping_cart_rounded,
-                          color: Colors.black, size: 30)),
-                ],
-              )
+              IconButton(
+                  onPressed: () {
+                    cartBloc.add(
+                        CartItemRemovedFromCartEvent(clickedProduct: product));
+                  },
+                  icon: Icon(Icons.delete_forever_rounded,
+                      color: Colors.red, size: 30)),
             ],
           )
         ],

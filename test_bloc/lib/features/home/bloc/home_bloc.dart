@@ -2,7 +2,9 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:test_bloc/data/cart_items.dart';
 import 'package:test_bloc/data/grocery_data.dart';
+import 'package:test_bloc/data/wishlist_items.dart';
 import 'package:test_bloc/features/home/models/product_data_model.dart';
 
 part 'home_event.dart';
@@ -32,10 +34,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<HomeProductAddToWishlistButtonClickedEvent>((event, emit) {
       print("Product add to Wishlist !");
+      if (!wishlistItems.contains(event.clickedProduct)) {
+        wishlistItems.add(event.clickedProduct);
+      }
+      emit(HomeProductItemAddedToWishlistActionState());
     });
 
     on<HomeProductAddToCartButtonClickedEvent>((event, emit) {
       print("Product add to Cart !");
+      if (!cartItems.contains(event.clickedProduct)) {
+        cartItems.add(event.clickedProduct);
+      }
+      emit(HomeProductItemAddedToCartActionState());
     });
   }
 }

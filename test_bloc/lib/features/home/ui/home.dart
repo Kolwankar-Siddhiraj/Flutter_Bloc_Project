@@ -6,6 +6,7 @@ import 'package:test_bloc/features/cart/ui/cart.dart';
 import 'package:test_bloc/features/home/bloc/home_bloc.dart';
 import 'package:test_bloc/features/home/ui/home_product_card.dart';
 import 'package:test_bloc/features/wishlist/ui/wishlist.dart';
+import 'package:test_bloc/utils/show_snackbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => CartScreen()));
         }
+        if (state is HomeProductItemAddedToWishlistActionState) {
+          displaySnackBar(context, true, "Item added to Wishlist !");
+        }
+        if (state is HomeProductItemAddedToCartActionState) {
+          displaySnackBar(context, true, "Item added to Cart !");
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
@@ -45,6 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.teal,
+                title: Text(
+                  "Siddhiraj's Grocery App",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, color: Colors.white),
+                ),
               ),
 
               // body
@@ -82,13 +94,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 // body
-                body: ListView.builder(
-                    itemCount: successState.products.length,
-                    itemBuilder: (context, index) {
-                      return HomeProductCardWidget(
-                          homeBloc: homeBloc,
-                          product: successState.products[index]);
-                    }));
+                body: Container(
+                  color: Color(0xFFF1FAFF),
+                  child: ListView.builder(
+                      itemCount: successState.products.length,
+                      itemBuilder: (context, index) {
+                        return HomeProductCardWidget(
+                            homeBloc: homeBloc,
+                            product: successState.products[index]);
+                      }),
+                ));
 
           case HomeErrorState:
             return Scaffold(
